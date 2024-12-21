@@ -27,7 +27,7 @@
     "windows": [
       {
         "width": 400,
-        "height": 340,
+        "height": 320,
         "center": true,
         "title": "mozart",
         "resizable": false,
