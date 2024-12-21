@@ -6,6 +6,10 @@ const startButton = document.getElementById("start");
 
 startButton.onclick = async () => {
   await Tone.start();
+
+  // Hide the window after audio context is initialized
+  const { appWindow } = window.__TAURI__.window;
+  await appWindow.hide();
 }
 
 // create a synth and connect it to the main output (your speakers)

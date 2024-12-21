@@ -9,6 +9,10 @@
     "version": "0.1.0"
   },
   "tauri": {
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    },
     "allowlist": {
       "all": false,
       "shell": {
@@ -16,15 +20,17 @@
         "open": true
       },
       "window": {
-        "startDragging": true
+        "startDragging": true,
+        "hide": true
       }
     },
     "windows": [
       {
-        "width": 300,
-        "height": 300,
+        "width": 400,
+        "height": 340,
         "center": true,
         "title": "mozart",
+        "resizable": false,
         "titleBarStyle": "Overlay",
         "alwaysOnTop": true,
         "hiddenTitle": true,
