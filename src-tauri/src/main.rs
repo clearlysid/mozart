@@ -1,23 +1,38 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use rdev::{listen, Event, EventType};
-
-fn callback(event: Event) {
-    match event.event_type {
-        EventType::KeyPress(key) => {
-            println!("Key: {:?}", key);
-        },
-        _ => {}
-    }
-}
+use tauri::Manager;
+use rdev::{listen, EventType, set_is_main_thread};
 
 fn main() {
     tauri::Builder::default()
-    .setup(|_| {
-        if let Err(error) = listen(callback) {
-            println!("Error: {:?}", error)
-        }
+    .setup(|app| {
+        let app_handle = app.handle();
+
+        // NOTE: needed on macOS
+        set_is_main_thread(false);
+
+        // Spawn the input listener on a different thread
+        std::thread::spawn(move || {
+            if let Err(error) = listen(move |event| {
+                match event.event_type {
+                    EventType::KeyPress(key) => {
+                        app_handle.emit_all("key-pressed", ()).map_err(|e| {
+                            println!("Error: {}", e.to_string())
+                        }).unwrap();
+
+                        // DEBUG PRINT
+                        // println!("Key: {:?}", key);
+                    },
+                    _ => {}
+                }
+            }) {
+                println!("Error: {:?}", error)
+            }
+
+        });
+
+
         Ok(())
     })
     .invoke_handler(tauri::generate_handler![])

@@ -14,8 +14,23 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "window": {
+        "startDragging": true
       }
     },
+    "windows": [
+      {
+        "width": 300,
+        "height": 300,
+        "center": true,
+        "title": "mozart",
+        "titleBarStyle": "Overlay",
+        "alwaysOnTop": true,
+        "hiddenTitle": true,
+        "acceptFirstMouse": true
+      }
+    ],
     "security": {
       "csp": null
     },
