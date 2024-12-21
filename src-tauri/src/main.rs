@@ -16,13 +16,13 @@ fn main() {
         std::thread::spawn(move || {
             if let Err(error) = listen(move |event| {
                 match event.event_type {
-                    EventType::KeyPress(key) => {
+                    EventType::KeyPress(_key) => {
                         app_handle.emit_all("key-pressed", ()).map_err(|e| {
                             println!("Error: {}", e.to_string())
                         }).unwrap();
 
                         // DEBUG PRINT
-                        // println!("Key: {:?}", key);
+                        // println!("Key: {:?}", _key);
                     },
                     _ => {}
                 }
